@@ -23,20 +23,6 @@ int itemsScanned=0;
 ofstream myfile;
 
 
-
-void credit(int bar){
-    for (int x:barcodes){
-        if (x == bar){
-            cout<< "Item has already been scanned \n";
-            break;
-        }
-    }
-    barcodes.push_back(bar);
-    // amount=amount+0.2;
-
-}
-
-
 void createAccount() {
     string name;
     double amount = 0;
@@ -59,7 +45,7 @@ void createAccount() {
             string name = get<0>(e);
             double amount = get<1>(e);
             int num = get<2>(e);
-            myfile << key << " " << name << " " << amount << " " << num << "\n";
+            myfile <<"ID:"<<key<<" "<<"NAME:"<<name<<" "<<"BALANCE:"<<amount<<" "<<"ITEMS SCANNED:"<<num<<"\n";
         }
         myfile.close();
         cout<<"Your account has been created! and your ID is: "<<id <<"\n";
@@ -108,7 +94,7 @@ void scan(){
             string name=get<0>(e);
             double amount=get<1>(e);
             int num=get<2>(e);
-            myfile <<key<<" "<<name<<" "<<amount<<" "<<num<<"\n";
+            myfile <<"ID:"<<key<<" "<<"NAME:"<<name<<" "<<"BALANCE:"<<amount<<" "<<"ITEMS SCANNED:"<<num<<"\n";
         }
         myfile.close();
 
@@ -152,7 +138,7 @@ void pay() {
                 string name=get<0>(e);
                 double amount=get<1>(e);
                 int num=get<2>(e);
-                myfile <<key<<" "<<name<<" "<<amount<<" "<<num<<"\n";
+                myfile <<"ID:"<<key<<" "<<"NAME:"<<name<<" "<<"BALANCE:"<<amount<<" "<<"ITEMS SCANNED:"<<num<<"\n";
             }
             myfile.close();
 
@@ -174,7 +160,7 @@ void viewCustomers(){
 
 
 
-    cout<<"List of users and their current balances: \n";
+    cout<<"\n List of users and their current balances: \n";
 
     string line;
     ifstream myfile ("users.txt");
@@ -218,18 +204,53 @@ void award(){
 }
 
 
+void menu() {
+    int choice;
+    while (choice != 3) {
+        cout << "\n Welcome to Ashesi as a Living Lab Recycling system! \n ";
+        cout << "Please select from options below: \n";
+        cout << "\n";
+        cout << "1. User Account \n 2. Stakeholder \n3. Exit \n";
+        cin >> choice;
+        while (choice < 1 || choice > 3) {
+            cout << "Invalid choice!";
+            cin >> choice;
+        }
+        if (choice == 1) {
 
+            string option;
+            cout
+                    << "Please choose from the menu below(select c for Account creation, s for scan, b to purchase an item: \n";
+            cout << "c. Create account \n s. Scan item \n b. Buy item";
+            cin >> option;
+            if (option == "c") {
+                createAccount();
+            } else if (option == "s") {
+                scan();
+            } else if (option == "b") {
+                pay();
+            }
+
+
+        } else if (choice == 2) {
+            string option;
+            cout<< "\n Please choose from the menu below(select v to View Users, g to View and Award Guardian of the future , c to check the bins' status: \n";
+            cout << "v. View users \n g. View and Award Guardian of the future \n s. check the bins' status";
+            cin >> option;
+            if (option == "v") {
+                viewCustomers();
+            } else if (option == "g") {
+                award();
+            } else if (option == "s") {
+                cout << "\n nothing for now";
+            }
+
+
+        }
+    }
+
+
+}
 int main(){
-
-    createAccount();
-    createAccount();
-    scan();
-    scan();
-    viewCustomers();
-    pay();
-    award();
-
-
-
-
+   menu();
 }
